@@ -1,8 +1,9 @@
 var TETRIS = TETRIS || {};
 
-TETRIS.model = function(width, height){
+TETRIS.model = function(width, height, shapeFunc){
   var _speed = 200;
   var _spawn = true;
+  var _landed = false;
 
   var getSpeed = function() {
     return speed;
@@ -16,12 +17,24 @@ TETRIS.model = function(width, height){
     _spawn = newBool;
   };
 
-  var spawnShape = function() {
-    return _randomX();
-  };
-
   var _randomX = function() {
     return Math.floor(Math.random() * width);
+  };
+
+  var spawnShape = function() {
+    return new Shape(_randomX());
+  };
+
+  var checkLanded = function() {
+    return _landed;
+  };
+
+  var setLanded = function(newBool) {
+    _landed = newBool;
+  };
+
+  var moveShape = function() {
+
   };
 
   return {
@@ -29,5 +42,8 @@ TETRIS.model = function(width, height){
     checkSpawn: checkSpawn,
     spawnShape: spawnShape,
     setSpawn: setSpawn,
+    checkLanded: checkLanded,
+    setLanded: setLanded,
+    moveShape: moveShape,
   };
 };

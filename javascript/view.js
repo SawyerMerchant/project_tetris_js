@@ -21,7 +21,7 @@ TETRIS.view = function(boardWidth, boardHeight){
   };
 
   var renderShape = function(shape) {
-    var $cell = $('#' + shape + '_' + 0);
+    var $cell = $('#' + shape.topLeft + '_' + 0);
     // var $cell = $('.cell');
     $cell.addClass('active');
   };

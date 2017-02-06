@@ -1,7 +1,7 @@
 var controller = (function(modelFunc, viewFunc){
   var boardWidth = 10;
   var boardHeight = 20;
-  var data = modelFunc(boardWidth, boardHeight);
+  var data = modelFunc(boardWidth, boardHeight, TETRIS.Shape);
   var view = viewFunc(boardWidth, boardHeight);
 
   view.init();
@@ -12,7 +12,7 @@ var controller = (function(modelFunc, viewFunc){
         data.setSpawn(false);
         view.renderShape(data.spawnShape());
       }
-      // if (data.checkLand()) {
+      // if (data.checkLanded()) {
       //   data.setSpawn(true);
       // } else {
       //   data.moveShape();
