@@ -1,6 +1,6 @@
 var TETRIS = TETRIS || {};
 
-TETRIS.view = function(boardWidth, boardHeight){
+TETRIS.view = function(boardWidth, boardHeight, model){
   var width = boardWidth;
   var height = boardHeight;
 
@@ -20,18 +20,20 @@ TETRIS.view = function(boardWidth, boardHeight){
     }
   };
 
-  var renderShape = function(shape, oldShapeX, oldShapeY) {
-    if (oldShapeX){
-      var $oldCell = $('#' + oldShapeX + '_' + oldShapeY);
-      $oldCell.removeClass('active');
-    }
+  var renderShape = function(shape) {
     var $cell = $('#' + shape.topLeftX + '_' + shape.topLeftY);
     $cell.addClass('active');
+  };
+
+  var removeShape = function(shape) {
+    var $cell = $('#' + shape.topLeftX + '_' + shape.topLeftY);
+    $cell.removeClass('active');
   };
 
   return {
     init: init,
     renderBoard: renderBoard,
     renderShape: renderShape,
+    removeShape: removeShape,
   };
 };

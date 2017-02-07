@@ -2,7 +2,7 @@ var controller = (function(modelFunc, viewFunc){
   var boardWidth = 10;
   var boardHeight = 20;
   var data = modelFunc(boardWidth, boardHeight, TETRIS.Shape);
-  var view = viewFunc(boardWidth, boardHeight);
+  var view = viewFunc(boardWidth, boardHeight, data);
   var currentShape = data.spawnShape();
   var oldCoord;
 
@@ -21,10 +21,11 @@ var controller = (function(modelFunc, viewFunc){
         data.setSpawn(true);
         data.setLanded(false);
       } else {
-        oldX = currentShape.topLeftX;
-        oldY = currentShape.topLeftY;
+        // oldX = currentShape.topLeftX;
+        // oldY = currentShape.topLeftY;
+        view.removeShape(currentShape);
         data.moveShape(currentShape);
-        view.renderShape(currentShape, oldX, oldY);
+        view.renderShape(currentShape);
       }
     }, data.getSpeed());
   })();

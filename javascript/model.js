@@ -5,15 +5,25 @@ TETRIS.model = function(width, height, shapeFunc){
   var _spawn = true;
   var _landed = false;
   var _cols = [];
+  var _ids = [];
+  var _classes = [];
 
   var buildBoard = (function() {
     for (var col = 0; col < width; col++){
       _cols.push([]);
+      _ids.push([]);
+      _classes.push([]);
       for (var row = 0; row < height; row ++){
         _cols[col].push(false);
+        _ids[col].push($('#' + col + '_' + row));
+        _classes[col].push('cell');
       }
     }
   })();
+
+  var getCellID = function(x,y) {
+    return _ids[x][y];
+  };
 
   var getSpeed = function() {
     return _speed;
@@ -43,7 +53,6 @@ TETRIS.model = function(width, height, shapeFunc){
 
     if ( nextY >= height || nextCell ) {
       _landed = true;
-      thisCell = true;
       flipCell(currentShape.topLeftX, currentShape.topLeftY);
     }
     return _landed;
@@ -79,6 +88,7 @@ TETRIS.model = function(width, height, shapeFunc){
     setLanded: setLanded,
     moveShape: moveShape,
     makeID: makeID,
-    flipCell: flipCell
+    flipCell: flipCell,
+    getCellID: getCellID,
   };
 };
