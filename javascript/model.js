@@ -1,7 +1,7 @@
 var TETRIS = TETRIS || {};
 
 TETRIS.model = function(width, height, shapeFunc){
-  var _speed = 1000;
+  var _speed = 300;
   var _spawn = true;
   var _landed = false;
 
@@ -26,7 +26,12 @@ TETRIS.model = function(width, height, shapeFunc){
     return currentShape;
   };
 
-  var checkLanded = function() {
+  var checkLanded = function(currentShape) {
+    var nextY = currentShape.topLeftY + 1;
+    // var $nextCell = $('#' + currentShape.topLeftX + '_' + nextY);
+    if ( nextY >= height ){//|| $($nextCell).hasClass('set') ) {
+      _landed = true;
+    }
     return _landed;
   };
 
