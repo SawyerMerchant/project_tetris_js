@@ -20,9 +20,12 @@ TETRIS.view = function(boardWidth, boardHeight){
     }
   };
 
-  var renderShape = function(shape) {
-    var $cell = $('#' + shape.topLeft + '_' + 0);
-    // var $cell = $('.cell');
+  var renderShape = function(shape, oldShapeX, oldShapeY) {
+    if (oldShapeX){
+      var $oldCell = $('#' + oldShapeX + '_' + oldShapeY);
+      $oldCell.removeClass('active');
+    }
+    var $cell = $('#' + shape.topLeftX + '_' + shape.topLeftY);
     $cell.addClass('active');
   };
 

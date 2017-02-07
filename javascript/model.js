@@ -22,7 +22,8 @@ TETRIS.model = function(width, height, shapeFunc){
   };
 
   var spawnShape = function() {
-    return new Shape(_randomX());
+    currentShape = new Shape(_randomX());
+    return currentShape;
   };
 
   var checkLanded = function() {
@@ -33,8 +34,8 @@ TETRIS.model = function(width, height, shapeFunc){
     _landed = newBool;
   };
 
-  var moveShape = function() {
-
+  var moveShape = function(shape) {
+    shape.topLeftY += 1;
   };
 
   return {
