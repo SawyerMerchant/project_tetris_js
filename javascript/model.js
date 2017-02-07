@@ -1,12 +1,12 @@
 var TETRIS = TETRIS || {};
 
 TETRIS.model = function(width, height, shapeFunc){
-  var _speed = 200;
+  var _speed = 1000;
   var _spawn = true;
   var _landed = false;
 
   var getSpeed = function() {
-    return speed;
+    return _speed;
   };
 
   var checkSpawn = function() {

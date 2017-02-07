@@ -25,7 +25,7 @@ var controller = (function(modelFunc, viewFunc){
         data.moveShape(currentShape);
         view.renderShape(currentShape, oldX, oldY);
       }
-    }, data.getSpeed);
+    }, data.getSpeed());
   })();
 
 
