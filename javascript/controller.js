@@ -17,6 +17,7 @@ var controller = (function(modelFunc, viewFunc){
         view.renderShape(currentShape);
       }
       if (data.checkLanded(currentShape)) {
+        view.renderShape(currentShape);
         data.setSpawn(true);
         data.setLanded(false);
       } else {

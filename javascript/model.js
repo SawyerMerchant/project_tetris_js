@@ -1,9 +1,19 @@
 var TETRIS = TETRIS || {};
 
 TETRIS.model = function(width, height, shapeFunc){
-  var _speed = 100;
+  var _speed = 10;
   var _spawn = true;
   var _landed = false;
+  var _cols = [];
+
+  var buildBoard = (function() {
+    for (var col = 0; col < width; col++){
+      _cols.push([]);
+      for (var row = 0; row < height; row ++){
+        _cols[col].push(false);
+      }
+    }
+  })();
 
   var getSpeed = function() {
     return _speed;
@@ -28,11 +38,19 @@ TETRIS.model = function(width, height, shapeFunc){
 
   var checkLanded = function(currentShape) {
     var nextY = currentShape.topLeftY + 1;
-    var $nextCell = makeID(currentShape.topLeftX, nextY);
-    if ( nextY >= height || $($nextCell).hasClass('set') ) {
+    var thisCell = _cols[currentShape.topLeftX][(currentShape.topLeftY)];
+    var nextCell = _cols[currentShape.topLeftX][nextY];
+
+    if ( nextY >= height || nextCell ) {
       _landed = true;
+      thisCell = true;
+      flipCell(currentShape.topLeftX, currentShape.topLeftY);
     }
     return _landed;
+  };
+
+  var flipCell = function(x, y) {
+    _cols[x][y] = !_cols[x][y];
   };
 
   var makeID = function(x, y) {
@@ -52,6 +70,7 @@ TETRIS.model = function(width, height, shapeFunc){
   };
 
   return {
+    // cols: cols,
     getSpeed: getSpeed,
     checkSpawn: checkSpawn,
     spawnShape: spawnShape,
@@ -59,5 +78,7 @@ TETRIS.model = function(width, height, shapeFunc){
     checkLanded: checkLanded,
     setLanded: setLanded,
     moveShape: moveShape,
+    makeID: makeID,
+    flipCell: flipCell
   };
 };
