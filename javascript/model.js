@@ -1,7 +1,7 @@
 var TETRIS = TETRIS || {};
 
 TETRIS.model = function(width, height, shapeFunc){
-  var _speed = 100;
+  var _speed = 50;
   var _spawn = true;
   var _landed = false;
   var _cols = [];

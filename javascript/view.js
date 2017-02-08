@@ -31,6 +31,31 @@ TETRIS.view = function(boardWidth, boardHeight, model){
     $cell.removeClass('active');
   };
 
+  var keyListeners = (function(handlers) {
+    $(document).keydown(function(e) {
+      switch(e.which) {
+        case 37: // left
+          alert("left");
+          // handlers.left();
+        break;
+
+        case 38: // up
+          // handlers.up();
+        break;
+
+        case 39: // right
+          alert("left");
+          // handlers.right();
+        break;
+
+        case 40: // down
+          // handlers.down();
+        break;
+        default: return;
+      }
+    });
+  })();
+
   return {
     init: init,
     renderBoard: renderBoard,
