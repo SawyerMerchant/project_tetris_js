@@ -1,7 +1,7 @@
 var TETRIS = TETRIS || {};
 
 TETRIS.model = function(width, height, shapeFunc){
-  var _speed = 10;
+  var _speed = 100;
   var _spawn = true;
   var _landed = false;
   var _cols = [];
@@ -63,11 +63,13 @@ TETRIS.model = function(width, height, shapeFunc){
   };
 
   var makeID = function(x, y) {
+    var $idString;
     if (y) {
-      $('#' + x + '_' + y);
+      $idString = $('#' + x + '_' + y);
     } else {
-      $('#' + x.topLeftX + '_' + x.topLeftY);
+      $idstring = $('#' + x.topLeftX + '_' + x.topLeftY);
     }
+    return $idString;
   };
 
   var setLanded = function(newBool) {

@@ -22,6 +22,7 @@ TETRIS.view = function(boardWidth, boardHeight, model){
 
   var renderShape = function(shape) {
     var $cell = $('#' + shape.topLeftX + '_' + shape.topLeftY);
+    // var $cell = model.makeID(shape); //why????
     $cell.addClass('active');
   };
 
