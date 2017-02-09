@@ -5,8 +5,6 @@ TETRIS.model = (function(){
   var _spawn = true;
   var _landed = false;
   var _cols = [];
-  var _ids = [];
-  var _classes = [];
   var _currentShape;
   var _width;
   var _height;
@@ -26,12 +24,8 @@ TETRIS.model = (function(){
   var buildBoard = function() {
     for (var col = 0; col < _width; col++){
       _cols.push([]);
-      // _ids.push([]);
-      // _classes.push([]);
       for (var row = 0; row < _height; row ++){
         _cols[col].push(false);
-        // _ids[col].push($('#' + col + '_' + row));
-        // _classes[col].push('cell');
       }
     }
   };
@@ -99,9 +93,20 @@ TETRIS.model = (function(){
     _landed = newBool;
   };
 
-  var moveShape = function(shape) {
-    shape.originY += 1;
-    // TODO check for landing and check for spawn
+  var handleShape = function(shape, callbacks) {
+    if (_spawn){
+      _spawn = false;
+      callbacks.spawn();
+      return;
+    }
+    if (checkLanded()){
+      callbacks.render();
+      setSpawn(true);
+      setLanded(false);
+    } else {
+      shape.originY += 1;
+      callbacks.render();
+    }
   };
 
   var handlers = {
@@ -131,7 +136,7 @@ TETRIS.model = (function(){
     setSpawn: setSpawn,
     checkLanded: checkLanded,
     setLanded: setLanded,
-    moveShape: moveShape,
+    handleShape: handleShape,
     makeID: makeID,
     fillCell: fillCell,
     getCellID: getCellID,
