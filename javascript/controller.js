@@ -31,6 +31,7 @@ TETRIS.controller = (function(modelFunc, viewFunc){
         modelFunc.moveShape(currentShape);
         viewFunc.renderShape(currentShape);
       }
+      modelFunc.checkFullRows();
     }, modelFunc.getSpeed());
   })();
 

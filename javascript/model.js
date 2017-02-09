@@ -36,6 +36,10 @@ TETRIS.model = (function(){
     }
   };
 
+  var checkFullRows = function() {
+
+  };
+
   var getBoard = function(){
     return _cols;
   };
@@ -72,13 +76,13 @@ TETRIS.model = (function(){
 
     if ( nextY >= _height || nextCell ) {
       _landed = true;
-      flipCell(_currentShape.originX, _currentShape.originY);
+      fillCell(_currentShape.originX, _currentShape.originY);
     }
     return _landed;
   };
 
-  var flipCell = function(x, y) {
-    _cols[x][y] = !_cols[x][y];
+  var fillCell = function(x, y) {
+    _cols[x][y] = true;
   };
 
   var makeID = function(x, y) {
@@ -109,7 +113,7 @@ TETRIS.model = (function(){
     },
     right: function(){
       nextCell = _cols[(_currentShape.originX + 1)][_currentShape.originY+1];
-      if (!_currentShape.originX + 1){
+      if (!nextCell){
         _currentShape.originX += 1;
       }
     },
@@ -129,8 +133,9 @@ TETRIS.model = (function(){
     setLanded: setLanded,
     moveShape: moveShape,
     makeID: makeID,
-    flipCell: flipCell,
+    fillCell: fillCell,
     getCellID: getCellID,
     handlers: handlers,
+    checkFullRows: checkFullRows,
   };
 })();
