@@ -1,6 +1,4 @@
-var TETRIS = TETRIS || {};
-
-function Shape(topLeftX) {
-  this.topLeftX = topLeftX;
-  this.topLeftY = -1;
-}
+Shape = function(originX) {
+    this.originX = originX;
+    this.originY = -1;
+};

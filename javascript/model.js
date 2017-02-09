@@ -1,25 +1,44 @@
 var TETRIS = TETRIS || {};
 
-TETRIS.model = function(width, height, shapeFunc){
-  var _speed = 50;
+TETRIS.model = (function(){
+  var _speed = 150;
   var _spawn = true;
   var _landed = false;
   var _cols = [];
   var _ids = [];
   var _classes = [];
+  var _currentShape;
+  var _width;
+  var _height;
 
-  var buildBoard = (function() {
-    for (var col = 0; col < width; col++){
+  var init = function(width, height){
+    _currentShape = spawnShape();
+    _width = width;
+    _height = height;
+    buildBoard();
+    return _currentShape;
+  };
+
+  var getShape = function(){
+    return _currentShape;
+  };
+
+  var buildBoard = function() {
+    for (var col = 0; col < _width; col++){
       _cols.push([]);
-      _ids.push([]);
-      _classes.push([]);
-      for (var row = 0; row < height; row ++){
+      // _ids.push([]);
+      // _classes.push([]);
+      for (var row = 0; row < _height; row ++){
         _cols[col].push(false);
-        _ids[col].push($('#' + col + '_' + row));
-        _classes[col].push('cell');
+        // _ids[col].push($('#' + col + '_' + row));
+        // _classes[col].push('cell');
       }
     }
-  })();
+  };
+
+  var getBoard = function(){
+    return _cols;
+  };
 
   var getCellID = function(x,y) {
     return _ids[x][y];
@@ -38,22 +57,22 @@ TETRIS.model = function(width, height, shapeFunc){
   };
 
   var _randomX = function() {
-    return Math.floor(Math.random() * width);
+    return Math.floor(Math.random() * _width);
   };
 
   var spawnShape = function() {
-    currentShape = new Shape(_randomX());
-    return currentShape;
+    _currentShape = new Shape(_randomX());
+    return _currentShape;
   };
 
-  var checkLanded = function(currentShape) {
-    var nextY = currentShape.topLeftY + 1;
-    var thisCell = _cols[currentShape.topLeftX][(currentShape.topLeftY)];
-    var nextCell = _cols[currentShape.topLeftX][nextY];
+  var checkLanded = function() {
+    var nextY = _currentShape.originY + 1;
+    var thisCell = _cols[_currentShape.originX][(_currentShape.originY)];
+    var nextCell = _cols[_currentShape.originX][nextY];
 
-    if ( nextY >= height || nextCell ) {
+    if ( nextY >= _height || nextCell ) {
       _landed = true;
-      flipCell(currentShape.topLeftX, currentShape.topLeftY);
+      flipCell(_currentShape.originX, _currentShape.originY);
     }
     return _landed;
   };
@@ -67,7 +86,7 @@ TETRIS.model = function(width, height, shapeFunc){
     if (y) {
       $idString = $('#' + x + '_' + y);
     } else {
-      $idstring = $('#' + x.topLeftX + '_' + x.topLeftY);
+      $idstring = $('#' + x.originX + '_' + x.originY);
     }
     return $idString;
   };
@@ -77,12 +96,32 @@ TETRIS.model = function(width, height, shapeFunc){
   };
 
   var moveShape = function(shape) {
-    shape.topLeftY += 1;
+    shape.originY += 1;
+    // TODO check for landing and check for spawn
   };
 
+  var handlers = {
+    left: function(){
+      nextCell = _cols[(_currentShape.originX - 1)][_currentShape.originY+1];
+      if (!nextCell){
+        _currentShape.originX -= 1;
+      }
+    },
+    right: function(){
+      nextCell = _cols[(_currentShape.originX + 1)][_currentShape.originY+1];
+      if (!_currentShape.originX + 1){
+        _currentShape.originX += 1;
+      }
+    },
+  };
+
+
+
   return {
-    // cols: cols,
+    init: init,
+    getShape: getShape,
     getSpeed: getSpeed,
+    getBoard: getBoard,
     checkSpawn: checkSpawn,
     spawnShape: spawnShape,
     setSpawn: setSpawn,
@@ -92,5 +131,6 @@ TETRIS.model = function(width, height, shapeFunc){
     makeID: makeID,
     flipCell: flipCell,
     getCellID: getCellID,
+    handlers: handlers,
   };
-};
+})();

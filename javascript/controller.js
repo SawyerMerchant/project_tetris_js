@@ -1,35 +1,42 @@
-var controller = (function(modelFunc, viewFunc){
+var TETRIS = TETRIS || {};
+
+TETRIS.controller = (function(modelFunc, viewFunc){
   var boardWidth = 10;
   var boardHeight = 20;
-  var data = modelFunc(boardWidth, boardHeight, TETRIS.Shape);
-  var view = viewFunc(boardWidth, boardHeight, data);
-  var currentShape = data.spawnShape();
-  var oldCoord;
+  var _currentShape;
+  var _board;
 
-
-  view.init();
+  var init = function(){
+    console.log(modelFunc.handlers);
+    viewFunc.init(boardWidth, boardHeight, modelFunc.handlers);
+    modelFunc.init(boardWidth, boardHeight);
+    _currentShape = modelFunc.getShape();
+    _board = modelFunc.getBoard();
+  };
 
   var gameLoop = (function(){
     var game = setInterval(function(){
-      if (data.checkSpawn()) {
-        data.setSpawn(false);
-        currentShape = data.spawnShape();
-        view.renderShape(currentShape);
+      viewFunc.renderBoard(_board);
+      if (modelFunc.checkSpawn()) {
+        modelFunc.setSpawn(false);
+        currentShape = modelFunc.spawnShape();
+        viewFunc.renderShape(currentShape);
       }
-      if (data.checkLanded(currentShape)) {
-        view.renderShape(currentShape);
-        data.setSpawn(true);
-        data.setLanded(false);
+      if (modelFunc.checkLanded(currentShape)) {
+        viewFunc.renderShape(currentShape);
+        modelFunc.setSpawn(true);
+        modelFunc.setLanded(false);
       } else {
-        // oldX = currentShape.topLeftX;
-        // oldY = currentShape.topLeftY;
-        view.removeShape(currentShape);
-        data.moveShape(currentShape);
-        view.renderShape(currentShape);
+        viewFunc.removeShape(currentShape);
+        modelFunc.moveShape(currentShape);
+        viewFunc.renderShape(currentShape);
       }
-    }, data.getSpeed());
+    }, modelFunc.getSpeed());
   })();
 
+  return {
+    init: init,
+  };
 
   // startGame: function() {
   //   //200 slow 100 fast
@@ -40,17 +47,19 @@ var controller = (function(modelFunc, viewFunc){
   //     model.moveHead();
   //     //check for game over
   //     if (model.gameOver()) {
-  //       // view.declareGameOver();
+  //       // viewFunc.declareGameOver();
   //       clearInterval(game);
-  //       view.declareGameOver();
+  //       viewFunc.declareGameOver();
   //     }
-  //     view.updateScore();
+  //     viewFunc.updateScore();
   //     // move tail
   //     model.moveTail(model.eatFood());
   //     //renderSnake
-  //     view.renderSnake();
+  //     viewFunc.renderSnake();
   //     //check for direction change
-  //     view.directionChange();
+  //     viewFunc.directionChange();
   //     //check for game pause
   //   }, model.speed);
 })(TETRIS.model, TETRIS.view);
+
+$(document).ready(function(){TETRIS.controller.init();});
