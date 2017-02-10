@@ -24,7 +24,7 @@ TETRIS.controller = (function(modelFunc, viewFunc){
 
   var gameLoop = (function(){
     var game = setInterval(function(){
-      viewFunc.renderBoard(_board, modelFunc.checkFullRows());
+      viewFunc.renderBoard(_board);
       modelFunc.handleShape(_currentShape, callbacks);
       // modelFunc.checkFullRows();
     }, modelFunc.getSpeed());

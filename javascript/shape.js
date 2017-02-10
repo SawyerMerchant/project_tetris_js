@@ -1,6 +1,6 @@
 Shape = function(originX) {
     this.originX = originX;
-    this.originY = -1;
+    this.originY = 0;
 };
 
 // x lowest y closest to center possible

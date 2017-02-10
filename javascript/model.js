@@ -1,7 +1,7 @@
 var TETRIS = TETRIS || {};
 
 TETRIS.model = (function(){
-  var _speed = 150;
+  var _speed = 50;
   var _spawn = true;
   var _landed = false;
   var _rows = [];
@@ -70,20 +70,35 @@ TETRIS.model = (function(){
   };
 
   var checkLanded = function() {
-    var nextY = _currentShape.originY + 1;
-    var thisCell = _rows[_currentShape.originX][(_currentShape.originY)];
-    var nextCell = _rows[_currentShape.originX][nextY];
+    var nextYCoord = _currentShape.originY + 1;
+    var thisCellVal = _rows[_currentShape.originY].cells[(_currentShape.originX)];
+    checkFloor(nextYCoord);
+    var nextCell = _rows[nextYCoord].cells[_currentShape.originX];
+    checkShapes(nextCell);
 
-    if ( nextY >= _height || nextCell ) {
-      _landed = true;
-      fillCell(_currentShape.originX, _currentShape.originY);
-    }
-    // TODO add to row count
     return _landed;
   };
 
+  var hitFloor = function(){
+    var nextY = _currentShape.originY + 1;
+    if ( nextY >= _height) {
+      _landed = true;
+      fillCell(_currentShape.originX, _currentShape.originY);
+    }
+    return _landed;
+  };
+
+  var hitShape = function(){
+    var nextY = _currentShape.originY + 1;
+    var nextCell = _rows[nextY].cells[_currentShape.originX];
+    if (nextCell > 0){
+      _landed = true;
+      fillCell(_currentShape.originX, _currentShape.originY);
+    }
+  };
+
   var fillCell = function(x, y) {
-    _rows[x][y] = true;
+    _rows[y].cells[x] = 1;
   };
 
   var makeID = function(x, y) {
@@ -106,7 +121,7 @@ TETRIS.model = (function(){
       callbacks.spawn();
       return;
     }
-    if (checkLanded()){
+    if (hitFloor() || hitShape()){
       callbacks.render();
       setSpawn(true);
       setLanded(false);
@@ -120,21 +135,12 @@ TETRIS.model = (function(){
   var checkFullRows = function() {
     var colCount;
     var deleteRows = [];
-    for (var r = _height; r > -1; r--){
-      colCount = 0;
-      for (var c = 0; c < _width; c++){
-        if (_rows[c][r]) {
-          colCount += 1;
-        }
-      }
-      if (colCount >= _width) {
-        deleteRows.push(r);
-        for (var deleter = 0; deleter < _width; deleter++){
-          // _rows[r][deleter]
-        }
+    for (var r = 0; r < _height; r++){
+      if (_rows[r].checkFull()) {
+        deleteRows.push(_rows[r]);
       }
     }
-    // console.log(deleteRows);
+    console.log(deleteRows);
     return deleteRows;
   };
 

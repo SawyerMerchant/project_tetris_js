@@ -25,7 +25,7 @@ TETRIS.view = (function(){
                               .attr('id', x + '_' + y);
         $cell.appendTo($currentRow);
         if (setPieces){
-          if (setPieces[x][y]){
+          if (setPieces[y].cells[x]){
             $cell.addClass('set');
           }
         }
