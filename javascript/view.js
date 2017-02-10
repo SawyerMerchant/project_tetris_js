@@ -33,13 +33,6 @@ TETRIS.view = (function(){
     }
   };
 
-
-
-  var removeShape = function(shape) {
-    var $cell = $('#' + shape.originX + '_' + shape.originY);
-    $cell.removeClass('active');
-  };
-
   var keyListeners = function() {
     $(document).keydown(function(e) {
       switch(e.which) {
@@ -74,6 +67,5 @@ TETRIS.view = (function(){
     init: init,
     renderBoard: renderBoard,
     renderShape: renderShape,
-    removeShape: removeShape,
   };
 })();

@@ -4,7 +4,7 @@ TETRIS.model = (function(){
   var _speed = 150;
   var _spawn = true;
   var _landed = false;
-  var _cols = [];
+  var _rows = [];
   var _currentShape;
   var _width;
   var _height;
@@ -21,21 +21,27 @@ TETRIS.model = (function(){
     return _currentShape;
   };
 
-  var buildBoard = function() {
-    for (var col = 0; col < _width; col++){
-      _cols.push([]);
-      for (var row = 0; row < _height; row ++){
-        _cols[col].push(false);
-      }
+  // need a constructor for blank rows - make an object that detects full row
+
+  var buildBoard = function(){
+    for (var h = 0; h < _height; h++){
+      _rows.push(new Row(_width));
     }
+    console.log(_rows);
   };
 
-  var checkFullRows = function() {
+  // var buildBoard = function() {
+  //   for (var col = 0; col < _width; col++){
+  //     _cols.push([]);
+  //     for (var row = 0; row < _height; row ++){
+  //       _cols[col].push(false);//change false to color enumeration
+  //     }
+  //   }
+  // };
 
-  };
 
   var getBoard = function(){
-    return _cols;
+    return _rows;
   };
 
   var getCellID = function(x,y) {
@@ -65,18 +71,19 @@ TETRIS.model = (function(){
 
   var checkLanded = function() {
     var nextY = _currentShape.originY + 1;
-    var thisCell = _cols[_currentShape.originX][(_currentShape.originY)];
-    var nextCell = _cols[_currentShape.originX][nextY];
+    var thisCell = _rows[_currentShape.originX][(_currentShape.originY)];
+    var nextCell = _rows[_currentShape.originX][nextY];
 
     if ( nextY >= _height || nextCell ) {
       _landed = true;
       fillCell(_currentShape.originX, _currentShape.originY);
     }
+    // TODO add to row count
     return _landed;
   };
 
   var fillCell = function(x, y) {
-    _cols[x][y] = true;
+    _rows[x][y] = true;
   };
 
   var makeID = function(x, y) {
@@ -107,17 +114,43 @@ TETRIS.model = (function(){
       shape.originY += 1;
       callbacks.render();
     }
+    checkFullRows();
+  };
+
+  var checkFullRows = function() {
+    var colCount;
+    var deleteRows = [];
+    for (var r = _height; r > -1; r--){
+      colCount = 0;
+      for (var c = 0; c < _width; c++){
+        if (_rows[c][r]) {
+          colCount += 1;
+        }
+      }
+      if (colCount >= _width) {
+        deleteRows.push(r);
+        for (var deleter = 0; deleter < _width; deleter++){
+          // _rows[r][deleter]
+        }
+      }
+    }
+    // console.log(deleteRows);
+    return deleteRows;
+  };
+
+  var shiftRows = function(deletedRows){
+
   };
 
   var handlers = {
     left: function(){
-      nextCell = _cols[(_currentShape.originX - 1)][_currentShape.originY+1];
+      nextCell = _rows[(_currentShape.originX - 1)][_currentShape.originY+1];
       if (!nextCell){
         _currentShape.originX -= 1;
       }
     },
     right: function(){
-      nextCell = _cols[(_currentShape.originX + 1)][_currentShape.originY+1];
+      nextCell = _rows[(_currentShape.originX + 1)][_currentShape.originY+1];
       if (!nextCell){
         _currentShape.originX += 1;
       }
