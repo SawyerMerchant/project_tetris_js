@@ -137,15 +137,15 @@ TETRIS.model = (function(){
     var deleteRows = [];
     for (var r = 0; r < _height; r++){
       if (_rows[r].checkFull()) {
-        deleteRows.push(_rows[r]);
+        shiftRow(r);
       }
     }
     console.log(deleteRows);
-    return deleteRows;
   };
 
-  var shiftRows = function(deletedRows){
-
+  var shiftRow = function(row){
+    _rows.splice( row, 1 );
+    _rows.unshift(new Row(_width));
   };
 
   var handlers = {
