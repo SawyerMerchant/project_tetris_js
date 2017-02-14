@@ -27,7 +27,7 @@ TETRIS.model = (function(){
     for (var h = 0; h < _height; h++){
       _rows.push(new Row(_width));
     }
-    console.log(_rows);
+    // console.log(_rows);
   };
 
   // var buildBoard = function() {
@@ -64,8 +64,16 @@ TETRIS.model = (function(){
     return Math.floor(Math.random() * _width);
   };
 
+  var bar = [
+    [-3, 0],
+    [-2, 0],
+    [-1, 0],
+    [0, 0]
+  ];
+
   var spawnShape = function() {
     _currentShape = new Shape(_randomX());
+    // _currentShape.updateCells();
     return _currentShape;
   };
 
@@ -127,6 +135,7 @@ TETRIS.model = (function(){
       setLanded(false);
     } else {
       shape.originY += 1;
+      shape.updateCells();
       callbacks.render();
     }
     checkFullRows();
@@ -140,7 +149,7 @@ TETRIS.model = (function(){
         shiftRow(r);
       }
     }
-    console.log(deleteRows);
+    // console.log(deleteRows);
   };
 
   var shiftRow = function(row){

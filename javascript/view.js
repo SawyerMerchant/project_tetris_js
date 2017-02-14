@@ -58,9 +58,19 @@ TETRIS.view = (function(){
   };
 
   var renderShape = function(shape) {
-    var $cell = $('#' + shape.originX + '_' + shape.originY);
-    // var $cell = model.makeID(shape); //circular, move make id here
-    $cell.addClass('active');
+    // function activateCells(cell){
+    //   var $cellID = $('#' + cell[0] + '_' + cell[1]);
+    //   $cellID.addClass('active');
+    // }
+    // shape.cells.forEach(activateCells);
+    var $cellID;
+    for (var c = 0; c < shape.cells.length; c++){
+      $cellID = $('#' + shape.cells[c][0] + '_' + shape.cells[c][1]);
+      $cellID.addClass('active');
+    }
+
+    // var $cell = $('#' + shape.originX + '_' + shape.originY);
+    // $cell.addClass('active');
   };
 
   return {
