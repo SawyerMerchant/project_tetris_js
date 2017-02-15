@@ -88,11 +88,20 @@ TETRIS.model = (function(){
   };
 
   var hitFloor = function(){
-    var nextY = _currentShape.originY + 1;
-    if ( nextY >= _height) {
-      _landed = true;
-      fillCell(_currentShape.originX, _currentShape.originY);
+    // var nextY = _currentShape.originY + 1;
+
+    for (var c = 0; c < _currentShape.cells.length; c++){
+      if (_currentShape.cells[c][1] >= _height - 1){
+        _landed = true;
+        fillCells();
+        // break;
+      }
     }
+
+    // if ( nextY >= _height) {
+    //   _landed = true;
+    //   fillCell(_currentShape.originX, _currentShape.originY);
+    // }
     return _landed;
   };
 
@@ -101,13 +110,20 @@ TETRIS.model = (function(){
     var nextCell = _rows[nextY].cells[_currentShape.originX];
     if (nextCell > 0){
       _landed = true;
-      fillCell(_currentShape.originX, _currentShape.originY);
+      fillCells();
     }
   };
 
-  var fillCell = function(x, y) {
-    _rows[y].cells[x] = 1;
+  var fillCells = function(){
+    var parts = _currentShape.cells;
+    for (var c = 0; c < parts.length; c++){
+      _rows[parts[c][1]].cells[parts[c][0]] = 1;
+    }
   };
+
+  // var fillCell = function(x, y) {
+  //   _rows[y].cells[x] = 1;
+  // };
 
   var makeID = function(x, y) {
     var $idString;
@@ -186,7 +202,6 @@ TETRIS.model = (function(){
     setLanded: setLanded,
     handleShape: handleShape,
     makeID: makeID,
-    fillCell: fillCell,
     getCellID: getCellID,
     handlers: handlers,
     checkFullRows: checkFullRows,
