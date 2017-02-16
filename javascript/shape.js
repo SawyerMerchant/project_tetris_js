@@ -1,72 +1,20 @@
 Shape = function(originX, type) {
-  // TODO ask how to generate a randomX within Shape builder
   this.originX = originX;
   this.originY = -1;
 
   this.cells = [];
 
-  SHAPES = [
-    //0   bar
-    [
-      [0, -3],
-      [0, -2],
-      [0, -1],
-      [0, 0]
-    ],
-    //1   square
-    [
-      [0, -1],
-      [1, -1],
-      [0, 0],
-      [1, 0]
-    ],
-    //2   L
-    [
-      [0, -2],
-      [0, -1],
-      [0,0],
-      [1,0]
-    ],
-    //3   J
-    [
-      [1, -2],
-      [1, -1],
-      [1, 0],
-      [0,0]
-    ],
-    //4   s
-    [
-      [0, 0],
-      [1, 0],
-      [1, -1],
-      [2, -1]
-    ],
-    //5   z
-    [
-      [0, -1],
-      [1, -1],
-      [1, 0],
-      [2, 0]
-    ],
-    //6   t
-    [
-      [0, 0],
-      [1, 0],
-      [2, 0],
-      [1, -1]
-    ]
+  this.vector = [
+    [0, -3],
+    [0, -2],
+    [0, -1],
+    [0, 0]
   ];
 
   this.vector = SHAPES[2];
 
 };
 
-// Shape.prototype.bar = [
-//   [0, -3],
-//   [0, -2],
-//   [0, -1],
-//   [0, 0]
-// ];
 
 Shape.prototype.updateCells = function(){
   var c;
@@ -92,13 +40,12 @@ Shape.prototype.checkNext = function(){
 // multiple versions of each shape: left L, right, L, up L, down L
 // or manually rotate each shape
 
-// TODO make randomX only go up to 4 from right edge
 
 // square
 // ....
 // ....
-// __..
-// o_..
+// ..__
+// ..o_
 
 // bar
 // |...      ....
@@ -124,7 +71,7 @@ Shape.prototype.checkNext = function(){
 // _o..       .|o.
 // ....       ..|.
 
-// z
+// reverse s
 // ....       ....
 // .__.       ..|.
 // ..o_       .o|.
