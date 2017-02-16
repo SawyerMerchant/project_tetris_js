@@ -42,7 +42,7 @@ TETRIS.view = (function(){
         break;
 
         case 38: // up
-          // handlers.up();
+          _handlers.up();
         break;
 
         case 39: // right

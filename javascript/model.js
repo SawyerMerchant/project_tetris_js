@@ -1,7 +1,7 @@
 var TETRIS = TETRIS || {};
 
 TETRIS.model = (function(){
-  var _speed = 50;
+  var _speed = 100;
   var _spawn = true;
   var _landed = false;
   var _rows = [];
@@ -188,6 +188,9 @@ TETRIS.model = (function(){
         _currentShape.originX += 1;
       }
     },
+    up: function(){
+      _currentShape.rotate();
+    }
   };
 
 

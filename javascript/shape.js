@@ -57,7 +57,7 @@ Shape = function(originX, type) {
     ]
   ];
 
-  this.vector = SHAPES[6];
+  this.vector = SHAPES[2];
 
 };
 
@@ -74,6 +74,10 @@ Shape.prototype.updateCells = function(){
   for (c = 0; c < this.vector.length; c++){
     this.cells.push([(this.vector[c][0] + this.originX), (this.vector[c][1] + this.originY)]);
   }
+};
+
+Shape.prototype.rotate = function(){
+  _.zip.apply(_, this.cells);
 };
 
 Shape.prototype.checkNext = function(){
