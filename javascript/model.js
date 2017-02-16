@@ -71,8 +71,10 @@ TETRIS.model = (function(){
     [0, 0]
   ];
 
+  // TODO create a random shape generator
+
   var spawnShape = function() {
-    _currentShape = new Shape(_randomX());
+    _currentShape = new Shape(_randomX(), 0);
     // _currentShape.updateCells();
     return _currentShape;
   };
