@@ -52,15 +52,8 @@ TETRIS.model = (function(){
     return Math.floor(Math.random() * _width);
   };
 
-  var bar = [
-    [-3, 0],
-    [-2, 0],
-    [-1, 0],
-    [0, 0]
-  ];
-
   var spawnShape = function() {
-    _currentShape = new Shape(_randomX());
+    _currentShape = new Shape(_width);
     // _currentShape.updateCells();
     return _currentShape;
   };

@@ -1,8 +1,12 @@
-Shape = function(originX, type) {
-  this.originX = originX;
-  this.originY = -1;
+Shape = function(width) {
+  var _randomX = function() {
+    return Math.floor(Math.random() * width);
+  };
 
+  this.originX = _randomX();
+  this.originY = -1;
   this.cells = [];
+
 
   this.shapes = [
     //0   bar
@@ -40,35 +44,49 @@ Shape = function(originX, type) {
     ],
     //3   J
     [
-      [1, -1],
-      [1, 0],
-      [1, 1],
-      [0,1]
+      [
+        [1, -1],
+        [1, 0],
+        [1, 1],
+        [0,1]
+      ],
     ],
     //4   s
     [
-      [0, 0],
-      [1, 0],
-      [1, -1],
-      [2, -1]
+      [
+        [0, 0],
+        [1, 0],
+        [1, -1],
+        [2, -1]
+      ],
     ],
     //5   z
     [
-      [0, -1],
-      [1, -1],
-      [1, 0],
-      [2, 0]
+      [
+        [0, -1],
+        [1, -1],
+        [1, 0],
+        [2, 0]
+      ],
     ],
     //6   t
     [
-      [0, 0],
-      [1, 0],
-      [2, 0],
-      [1, -1]
-    ]
+      [
+        [0, 0],
+        [1, 0],
+        [2, 0],
+        [1, -1]
+      ]
+    ],
   ];
+  var generateShape = function() {
+    return Math.floor(Math.random() * 7);
+  };
+
+  this.shapeNum = generateShape();
+
   this.direction = 0;
-  this.vector = this.shapes[0][this.direction];
+  this.vector = this.shapes[this.shapeNum][this.direction];
 
 };
 
@@ -83,7 +101,8 @@ Shape.prototype.updateCells = function(){
 
 Shape.prototype.rotate = function() {
   this.direction += 1;
-  this.vector = this.shapes[0][this.direction];
+  this.direction = this.direction % this.shapes[this.shapeNum].length;
+  this.vector = this.shapes[this.shapeNum][this.direction];
 };
 
 Shape.prototype.checkNext = function(){
