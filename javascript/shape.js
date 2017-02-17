@@ -4,14 +4,71 @@ Shape = function(originX, type) {
 
   this.cells = [];
 
-  this.vector = [
-    [0, -3],
-    [0, -2],
-    [0, -1],
-    [0, 0]
+  this.shapes = [
+    //0   bar
+    [
+      [//vertical
+        [0, -3],
+        [0, -2],
+        [0, -1],
+        [0, 0]
+      ],
+      [//horizontal
+        [-2, -1],
+        [-1, -1],
+        [0, -1],
+        [1, -1]
+      ]
+    ],
+    //1   square
+    [
+      [ //always the same
+        [0, -1],
+        [1, -1],
+        [0, 0],
+        [1, 0],
+      ],
+    ],
+    //2   L
+    [
+      [
+        [0, -1],
+        [0, 0],
+        [0,1],
+        [1,1],
+      ],
+    ],
+    //3   J
+    [
+      [1, -1],
+      [1, 0],
+      [1, 1],
+      [0,1]
+    ],
+    //4   s
+    [
+      [0, 0],
+      [1, 0],
+      [1, -1],
+      [2, -1]
+    ],
+    //5   z
+    [
+      [0, -1],
+      [1, -1],
+      [1, 0],
+      [2, 0]
+    ],
+    //6   t
+    [
+      [0, 0],
+      [1, 0],
+      [2, 0],
+      [1, -1]
+    ]
   ];
-
-  this.vector = SHAPES[2];
+  this.direction = 0;
+  this.vector = this.shapes[0][this.direction];
 
 };
 
@@ -24,8 +81,9 @@ Shape.prototype.updateCells = function(){
   }
 };
 
-Shape.prototype.rotate = function(){
-  _.zip.apply(_, this.cells);
+Shape.prototype.rotate = function() {
+  this.direction += 1;
+  this.vector = this.shapes[0][this.direction];
 };
 
 Shape.prototype.checkNext = function(){

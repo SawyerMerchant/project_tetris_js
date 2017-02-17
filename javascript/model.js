@@ -21,24 +21,12 @@ TETRIS.model = (function(){
     return _currentShape;
   };
 
-  // need a constructor for blank rows - make an object that detects full row
-
   var buildBoard = function(){
     for (var h = 0; h < _height; h++){
       _rows.push(new Row(_width));
     }
     // console.log(_rows);
   };
-
-  // var buildBoard = function() {
-  //   for (var col = 0; col < _width; col++){
-  //     _cols.push([]);
-  //     for (var row = 0; row < _height; row ++){
-  //       _cols[col].push(false);//change false to color enumeration
-  //     }
-  //   }
-  // };
-
 
   var getBoard = function(){
     return _rows;
@@ -78,40 +66,45 @@ TETRIS.model = (function(){
   };
 
   var checkLanded = function() {
-    var nextYCoord = _currentShape.originY + 1;
-    var thisCellVal = _rows[_currentShape.originY].cells[(_currentShape.originX)];
-    checkFloor(nextYCoord);
-    var nextCell = _rows[nextYCoord].cells[_currentShape.originX];
-    checkShapes(nextCell);
-
+    if (hitFloor()){
+      return _landed;
+    } else {
+      hitShape();
+    }
     return _landed;
   };
 
   var hitFloor = function(){
-    // var nextY = _currentShape.originY + 1;
-
     for (var c = 0; c < _currentShape.cells.length; c++){
       if (_currentShape.cells[c][1] >= _height - 1){
         _landed = true;
         fillCells();
-        // break;
+        break;
       }
     }
-
-    // if ( nextY >= _height) {
-    //   _landed = true;
-    //   fillCell(_currentShape.originX, _currentShape.originY);
-    // }
     return _landed;
   };
 
   var hitShape = function(){
-    var nextY = _currentShape.originY + 1;
-    var nextCell = _rows[nextY].cells[_currentShape.originX];
-    if (nextCell > 0){
-      _landed = true;
-      fillCells();
+    // var nextY = _currentShape.originY + 1;
+    // var nextCell = _rows[nextY].cells[_currentShape.originX];
+    // if (nextCell > 0){
+    //   _landed = true;
+    //   fillCells();
+    // }
+    var nextY;
+    var nextCell;
+    for (var e = 0; e < _currentShape.cells.length; e++){
+      nextY = _currentShape.cells[e][1] + 1 ;
+      if (nextY < 0){nextY = 0;}
+      nextCell = _rows[nextY].cells[_currentShape.cells[e][0]];
+      if (nextCell > 0){
+        _landed = true;
+        fillCells();
+        break;
+      }
     }
+    return _landed;
   };
 
   var fillCells = function(){
@@ -145,7 +138,8 @@ TETRIS.model = (function(){
       callbacks.spawn();
       return;
     }
-    if (hitFloor() || hitShape()){
+    // if (hitFloor() || hitShape()){
+    if (checkLanded()){
       callbacks.render();
       setSpawn(true);
       setLanded(false);
